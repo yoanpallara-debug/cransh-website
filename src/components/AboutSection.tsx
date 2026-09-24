@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { ProductRender } from "./ProductRender";
+import { HERO_PRODUCT_IMAGE } from "../lib/data";
 import { Reveal } from "./Reveal";
 
 export function AboutSection() {
@@ -32,7 +32,14 @@ export function AboutSection() {
             delay={150}
             className="relative mx-auto w-[60vw] max-w-[280px] lg:absolute lg:left-1/2 lg:top-1/2 lg:w-[22vw] lg:max-w-sm lg:-translate-x-1/2 lg:-translate-y-1/2"
           >
-            <ProductRender flavor="chocolate" />
+            <div className="relative">
+              <div className="absolute inset-0 -z-10 rounded-full bg-cransh-green/20 blur-[70px]" />
+              <img
+                src={HERO_PRODUCT_IMAGE}
+                alt="Empaque de Cransh Energy"
+                className="mx-auto w-full animate-float-slow drop-shadow-[0_30px_40px_rgba(0,0,0,0.6)]"
+              />
+            </div>
           </Reveal>
         </div>
 
@@ -45,12 +52,14 @@ export function AboutSection() {
               acompañar tu ritmo durante el estudio, trabajo, entrenamiento y
               movimiento.
             </p>
+            {/* TODO: apunta temporalmente a Ingredientes — reemplazar por la sección
+                real de "nuestra historia" cuando exista ese contenido de marca. */}
             <a
-              href="#depredador"
+              href="#ingredientes"
               className="btn-magnetic mt-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-cransh-off"
             >
               <span className="border-b border-cransh-green pb-0.5">
-                Conoce nuestra historia
+                Conoce nuestros ingredientes
               </span>
               <ArrowRight size={16} strokeWidth={2.5} className="text-cransh-green" />
             </a>

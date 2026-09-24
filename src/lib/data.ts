@@ -142,6 +142,8 @@ export const DAILY_USE = [
     title: "ESTUDIA",
     desc: "Cuando necesitas continuar con tu jornada académica.",
     gradient: "linear-gradient(160deg,#12210a,#050505)",
+    image: "moments/estudia.jpg",
+    accent: "green" as const,
   },
   {
     id: "trabaja",
@@ -149,6 +151,8 @@ export const DAILY_USE = [
     title: "TRABAJA",
     desc: "Cuando tu día no se detiene entre reuniones y tareas.",
     gradient: "linear-gradient(160deg,#1c1608,#050505)",
+    image: "moments/trabaja.jpg",
+    accent: "yellow" as const,
   },
   {
     id: "entrena",
@@ -156,13 +160,17 @@ export const DAILY_USE = [
     title: "ENTRENA",
     desc: "Un snack práctico para acompañar tu movimiento.",
     gradient: "linear-gradient(160deg,#190c2b,#050505)",
+    image: "moments/entrena.jpg",
+    accent: "purple" as const,
   },
   {
     id: "muevete",
     icon: Bike,
     title: "MUÉVETE",
     desc: "Cuando necesitas una opción práctica para continuar tu rutina.",
-    gradient: "linear-gradient(160deg,#0a1a1c,#050505)",
+    gradient: "linear-gradient(160deg,#08151f,#050505)",
+    image: "moments/muevete.jpg",
+    accent: "blue" as const,
   },
 ];
 

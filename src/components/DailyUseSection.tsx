@@ -42,8 +42,8 @@ export function DailyUseSection() {
                 onClick={() => {
                   if (isTouchDevice()) setActive((prev) => (prev === i ? null : i));
                 }}
-                className="relative h-[280px] overflow-hidden transition-[flex-grow] duration-700 ease-out sm:h-[520px]"
-                style={{ flexGrow: isActive ? 1.6 : 1, flexBasis: 0 }}
+                className="relative h-[280px] shrink-0 overflow-hidden transition-[flex-grow] duration-700 ease-out sm:h-[520px] sm:basis-0"
+                style={{ flexGrow: isActive ? 1.6 : 1 }}
               >
                 {/* photo backdrop — dark and subtle at rest, revealed on hover/tap */}
                 <div

@@ -4,20 +4,22 @@ import { Reveal } from "./Reveal";
 function Track() {
   return (
     <div className="flex shrink-0 items-center gap-16 pr-16">
-      {INGREDIENTS.map((item) => {
-        const Icon = item.icon;
-        return (
-          <div key={item.name} className="flex shrink-0 items-center gap-4">
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03]">
-              <Icon size={24} strokeWidth={1.75} className="text-cransh-green" />
-            </span>
-            <span className="font-display text-2xl tracking-wide text-cransh-off/80 sm:text-3xl">
-              {item.name}
-            </span>
-            <span className="ml-8 h-1.5 w-1.5 rounded-full bg-white/20" />
-          </div>
-        );
-      })}
+      {INGREDIENTS.map((item) => (
+        <div key={item.name} className="flex shrink-0 items-center gap-4">
+          <span className="h-14 w-14 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+            <img
+              src={`${import.meta.env.BASE_URL}${item.image}`}
+              alt=""
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          </span>
+          <span className="font-display text-2xl tracking-wide text-cransh-off/80 sm:text-3xl">
+            {item.name}
+          </span>
+          <span className="ml-8 h-1.5 w-1.5 rounded-full bg-white/20" />
+        </div>
+      ))}
     </div>
   );
 }

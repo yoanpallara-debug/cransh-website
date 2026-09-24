@@ -22,21 +22,28 @@ export function IngredientsSection() {
         </Reveal>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {INGREDIENTS.map((ingredient, i) => {
-            const Icon = ingredient.icon;
-            return (
-              <Reveal key={ingredient.name} delay={i * 100}>
-                <div className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-7 transition-colors duration-500 hover:border-cransh-green/40">
-                  <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-cransh-green/10 opacity-0 blur-[70px] transition-opacity duration-500 group-hover:opacity-100" />
-                  <Icon size={30} strokeWidth={1.5} className="relative text-cransh-green" />
-                  <h3 className="relative mt-5 font-display text-xl tracking-wide text-cransh-off">
+          {INGREDIENTS.map((ingredient, i) => (
+            <Reveal key={ingredient.name} delay={i * 100}>
+              <div className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-colors duration-500 hover:border-cransh-green/40">
+                <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-cransh-green/10 opacity-0 blur-[70px] transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="relative aspect-[4/3] overflow-hidden bg-ink">
+                  <img
+                    src={`${import.meta.env.BASE_URL}${ingredient.image}`}
+                    alt={ingredient.name}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
+                </div>
+                <div className="relative p-7 pt-5">
+                  <h3 className="font-display text-xl tracking-wide text-cransh-off">
                     {ingredient.name}
                   </h3>
-                  <p className="relative mt-2 text-sm text-cransh-off/60">{ingredient.desc}</p>
+                  <p className="mt-2 text-sm text-cransh-off/60">{ingredient.desc}</p>
                 </div>
-              </Reveal>
-            );
-          })}
+              </div>
+            </Reveal>
+          ))}
         </div>
 
         <Reveal delay={400}>

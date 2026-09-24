@@ -40,21 +40,25 @@ export const INGREDIENTS = [
   {
     name: "CACAO",
     icon: Flame,
+    image: "Ingredients/cacao.png",
     desc: "Fuente natural de antioxidantes y energía.",
   },
   {
     name: "MIEL DE ABEJA",
     icon: Sprout,
+    image: "Ingredients/miel-de-abeja.png",
     desc: "Energía natural de liberación progresiva.",
   },
   {
     name: "QUINUA",
     icon: Wheat,
+    image: "Ingredients/quinua.png",
     desc: "Aporta proteínas, fibra y nutrientes esenciales.",
   },
   {
     name: "EXTRACTOS DE PLANTAS",
     icon: Leaf,
+    image: "Ingredients/extractos-de-plantas.png",
     desc: "Contribuyen al enfoque y bienestar.",
   },
 ];

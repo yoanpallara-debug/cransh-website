@@ -68,9 +68,8 @@ export function DailyUseSection() {
                   <div
                     className="absolute inset-0 transition-opacity duration-700 ease-out"
                     style={{
-                      background: accent.tint,
-                      mixBlendMode: "color",
-                      opacity: isActive ? 0.5 : 0.85,
+                      background: `radial-gradient(130% 100% at 10% 100%, ${accent.tint}, transparent 65%)`,
+                      opacity: isActive ? 0.9 : 0.65,
                     }}
                   />
                 </div>

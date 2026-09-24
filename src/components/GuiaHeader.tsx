@@ -13,7 +13,7 @@ export function GuiaHeader() {
         <img
           src={`${import.meta.env.BASE_URL}cransh-energy-logo-transparent.png`}
           alt="Cransh Energy"
-          className="h-7 w-auto sm:h-8"
+          className="h-11 w-auto sm:h-12"
         />
       </Link>
 

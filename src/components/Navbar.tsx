@@ -16,13 +16,13 @@ export function Navbar() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         {/* Logo */}
         <a href="#inicio" className="group flex items-center">
           <img
             src={`${import.meta.env.BASE_URL}cransh-energy-logo-transparent.png`}
             alt="Cransh Energy"
-            className="h-8 w-auto sm:h-10"
+            className="h-12 w-auto sm:h-16"
           />
         </a>
 

@@ -23,7 +23,7 @@ export function Footer() {
             <img
               src={`${import.meta.env.BASE_URL}cransh-energy-logo-transparent.png`}
               alt="Cransh Energy"
-              className="h-9 w-auto"
+              className="h-14 w-auto"
             />
             <p className="mt-4 text-sm font-medium uppercase tracking-[0.25em] text-cransh-off/50">
               Energía que se come.

@@ -1,7 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { FLAVORS, type FlavorId } from "../lib/data";
-import { ProductRender } from "./ProductRender";
 import { Reveal } from "./Reveal";
 
 export function FlavorsSection() {
@@ -51,12 +50,20 @@ export function FlavorsSection() {
                       : "border-white/5 bg-white/[0.015] opacity-70"
                   }`}
                 >
-                  <div
-                    className={`mx-auto w-[55%] transition-transform duration-500 ${
-                      isActive ? "scale-110" : "scale-95"
-                    }`}
-                  >
-                    <ProductRender flavor={flavor.id} particles={isActive} />
+                  <div className="relative mx-auto flex h-44 w-full items-center justify-center sm:h-52">
+                    {/* ambient glow in the flavor's identity color */}
+                    <div
+                      className="pointer-events-none absolute inset-0 -z-10 rounded-full blur-3xl transition-opacity duration-500"
+                      style={{ background: flavor.accentSoft, opacity: isActive ? 1 : 0.4 }}
+                    />
+                    <img
+                      src={`${import.meta.env.BASE_URL}${flavor.image}`}
+                      alt={flavor.name}
+                      loading="lazy"
+                      className={`h-full w-auto object-contain transition-all duration-500 ease-out ${
+                        isActive ? "-translate-y-1 scale-110" : "translate-y-0 scale-95"
+                      }`}
+                    />
                   </div>
 
                   <div className="mt-8 flex items-end justify-between">

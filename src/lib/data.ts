@@ -80,6 +80,7 @@ export const FLAVORS: {
   desc: string;
   accent: string;
   accentSoft: string;
+  image: string;
 }[] = [
   {
     id: "chocolate",
@@ -88,6 +89,7 @@ export const FLAVORS: {
     desc: "Intenso, energético y delicioso.",
     accent: "#a8ff00",
     accentSoft: "rgba(168,255,0,0.18)",
+    image: "images/sabores/cransh-chocolate.png",
   },
   {
     id: "vainilla",
@@ -96,6 +98,7 @@ export const FLAVORS: {
     desc: "Suave, equilibrado y fácil de disfrutar.",
     accent: "#ffe600",
     accentSoft: "rgba(255,230,0,0.18)",
+    image: "images/sabores/cransh-vainilla.png",
   },
   {
     id: "fresa",
@@ -104,6 +107,7 @@ export const FLAVORS: {
     desc: "Fresco, dulce y diferente.",
     accent: "#8b3dff",
     accentSoft: "rgba(139,61,255,0.18)",
+    image: "images/sabores/cransh-fresa.png",
   },
 ];
 
@@ -177,6 +181,9 @@ export const DAILY_USE = [
 /** Ruta pública del PDF descargable — único recurso oficial de la marca. */
 export const GUIDE_PDF_URL = `${import.meta.env.BASE_URL}guia-cransh-energia-dia-intenso.pdf`;
 export const GUIDE_PDF_FILENAME = "guia-cransh-energia-dia-intenso.pdf";
+
+/** Foto del empaque principal, producto protagonista del Hero. */
+export const HERO_PRODUCT_IMAGE = `${import.meta.env.BASE_URL}images/hero/cransh-empaque.png`;
 
 /**
  * Contenido real de la Guía Cransh, capítulo por capítulo — usado tanto en

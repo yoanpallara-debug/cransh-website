@@ -2,9 +2,8 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMouseParallax } from "../hooks/useMouseParallax";
-import { NAV_CTA } from "../lib/data";
+import { HERO_PRODUCT_IMAGE, NAV_CTA } from "../lib/data";
 import { PantherMark } from "./PantherMark";
-import { ProductRender } from "./ProductRender";
 
 export function HeroSection() {
   const { ref, pos } = useMouseParallax<HTMLDivElement>();
@@ -161,7 +160,7 @@ export function HeroSection() {
           </div>
 
           <div
-            className={`transition-all duration-[1100ms] ease-out ${
+            className={`relative transition-all duration-[1100ms] ease-out ${
               mounted ? "scale-100 opacity-100" : "scale-[0.85] opacity-0"
             }`}
             style={{
@@ -169,7 +168,14 @@ export function HeroSection() {
               transform: `translate(${pos.x * 10}px, ${pos.y * 10}px)`,
             }}
           >
-            <ProductRender flavor="chocolate" />
+            {/* ambient glow the package appears to float in, echoing the hero's green wash */}
+            <div className="absolute inset-0 -z-10 rounded-full bg-cransh-green/25 blur-[90px] animate-pulse-glow" />
+
+            <img
+              src={HERO_PRODUCT_IMAGE}
+              alt="Empaque de Cransh Energy"
+              className="relative mx-auto w-[85%] animate-float-slow drop-shadow-[0_35px_45px_rgba(0,0,0,0.65)] sm:w-[80%] lg:w-[95%] lg:scale-110"
+            />
           </div>
         </div>
       </div>

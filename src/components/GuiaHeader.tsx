@@ -9,13 +9,12 @@ import { Link } from "react-router-dom";
 export function GuiaHeader() {
   return (
     <header className="relative z-10 mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-6 sm:px-8">
-      <Link to="/" className="flex flex-col leading-[0.85]">
-        <span className="font-display text-lg tracking-wide text-cransh-off sm:text-xl">
-          CRANSH
-        </span>
-        <span className="font-display text-lg tracking-wide text-cransh-green sm:text-xl">
-          ENERGY
-        </span>
+      <Link to="/" className="flex items-center">
+        <img
+          src={`${import.meta.env.BASE_URL}cransh-energy-logo-transparent.png`}
+          alt="Cransh Energy"
+          className="h-7 w-auto sm:h-8"
+        />
       </Link>
 
       <Link

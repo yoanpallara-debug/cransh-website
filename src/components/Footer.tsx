@@ -20,10 +20,11 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-col gap-12 pb-12 sm:flex-row sm:justify-between">
           <div>
-            <div className="flex flex-col leading-[0.85]">
-              <span className="font-display text-2xl tracking-wide text-cransh-off">CRANSH</span>
-              <span className="font-display text-2xl tracking-wide text-cransh-green">ENERGY</span>
-            </div>
+            <img
+              src={`${import.meta.env.BASE_URL}cransh-energy-logo-transparent.png`}
+              alt="Cransh Energy"
+              className="h-9 w-auto"
+            />
             <p className="mt-4 text-sm font-medium uppercase tracking-[0.25em] text-cransh-off/50">
               Energía que se come.
             </p>

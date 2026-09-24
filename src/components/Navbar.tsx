@@ -18,13 +18,12 @@ export function Navbar() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
         {/* Logo */}
-        <a href="#inicio" className="group flex flex-col leading-[0.85]">
-          <span className="font-display text-xl tracking-wide text-cransh-off sm:text-2xl">
-            CRANSH
-          </span>
-          <span className="font-display text-xl tracking-wide text-cransh-green sm:text-2xl">
-            ENERGY
-          </span>
+        <a href="#inicio" className="group flex items-center">
+          <img
+            src={`${import.meta.env.BASE_URL}cransh-energy-logo-transparent.png`}
+            alt="Cransh Energy"
+            className="h-8 w-auto sm:h-10"
+          />
         </a>
 
         {/* Center nav */}

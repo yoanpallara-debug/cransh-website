@@ -163,7 +163,7 @@ export const DAILY_USE = [
 ];
 
 /** Ruta pública del PDF descargable — único recurso oficial de la marca. */
-export const GUIDE_PDF_URL = "/guia-cransh-energia-dia-intenso.pdf";
+export const GUIDE_PDF_URL = `${import.meta.env.BASE_URL}guia-cransh-energia-dia-intenso.pdf`;
 export const GUIDE_PDF_FILENAME = "guia-cransh-energia-dia-intenso.pdf";
 
 /**

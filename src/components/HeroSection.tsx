@@ -112,7 +112,29 @@ export function HeroSection() {
               3.3
             );
 
+          // Once the pin releases, AboutSection's own pack scrolls in right
+          // below — fade the Hero's pack out over the first half-viewport so
+          // two identical packs are never on screen together. Start/end are
+          // read from the pin trigger (refreshed first, created first).
+          const exit = gsap.fromTo(
+            productRef.current,
+            { opacity: 1, y: 0 },
+            {
+              opacity: 0,
+              y: -40,
+              ease: "none",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: () => tl.scrollTrigger?.end ?? 0,
+                end: () => (tl.scrollTrigger?.end ?? 0) + window.innerHeight * 0.5,
+                scrub: true,
+              },
+            }
+          );
+
           return () => {
+            exit.scrollTrigger?.kill();
+            exit.kill();
             tl.scrollTrigger?.kill();
             tl.kill();
           };

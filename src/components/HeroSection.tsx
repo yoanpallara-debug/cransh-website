@@ -97,26 +97,19 @@ export function HeroSection() {
               { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" },
               1.15
             )
-            .to(
-              energyRef.current,
-              { opacity: 0, y: -16, duration: 0.6, ease: "power1.in" },
-              2.4
-            )
             .fromTo(
               tagRefs.current,
               { opacity: 0, y: 18 },
               { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "power1.out" },
               2.1
             )
+            // End on a full lockup (message + tags + settled pack) rather
+            // than fading everything out — otherwise the Hero scrolled away
+            // with an empty left half once the pin released.
             .to(
               productRef.current,
               { scale: isDesktop ? 1.04 : 1.02, xPercent: 0, rotate: 0, duration: 1, ease: "power1.inOut" },
               3.3
-            )
-            .to(
-              tagRefs.current,
-              { opacity: 0, y: -14, duration: 0.5, stagger: 0.08, ease: "power1.in" },
-              3.4
             );
 
           return () => {

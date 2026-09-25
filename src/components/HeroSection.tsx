@@ -53,7 +53,14 @@ export function HeroSection() {
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top top",
+              // On short screens (most phones) the Hero is taller than the
+              // viewport; pinning at "top top" would freeze it with the
+              // product cut off below the fold. Pin once its bottom is
+              // visible instead. Function form re-evaluates on refresh/resize.
+              start: () =>
+                sectionRef.current && sectionRef.current.offsetHeight > window.innerHeight
+                  ? "bottom bottom"
+                  : "top top",
               end: isDesktop ? "+=180%" : "+=140%",
               scrub: 1,
               pin: true,
@@ -185,9 +192,9 @@ export function HeroSection() {
 
       {/* grain handled globally */}
 
-      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-16 sm:px-8 lg:grid-cols-12 lg:gap-4 lg:pb-0">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-16 sm:px-8 lg:relative lg:grid-cols-12 lg:gap-4 lg:pb-0">
         {/* ---- copy column ---- */}
-        <div className="relative z-10 lg:col-span-7">
+        <div className="lg:relative lg:z-10 lg:col-span-7">
           <div ref={copyGroupRef}>
             <div
               className={`mb-5 flex items-center gap-2 transition-all duration-700 ${
@@ -257,27 +264,30 @@ export function HeroSection() {
           {/* scroll-revealed message that hands off from the headline above.
               The heading and the tag row fade independently — each is its
               own node, not nested inside the other's opacity, otherwise a
-              parent fading to 0 would hide an already-visible child. */}
-          <div className="pointer-events-none absolute inset-0 flex flex-col justify-center">
+              parent fading to 0 would hide an already-visible child.
+              Below lg the copy column has already scrolled out of view when
+              the pin kicks in (see `start`), so the overlay anchors to the
+              section's bottom 100svh — exactly the slice that stays pinned. */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex h-[100svh] flex-col justify-start px-5 pt-20 sm:px-8 sm:pt-28 lg:inset-0 lg:h-auto lg:justify-center lg:px-0 lg:pt-0">
             <div ref={energyRef} className="opacity-0">
-              <span className="mb-4 flex items-center gap-2">
+              <span className="mb-3 flex items-center gap-2 lg:mb-4">
                 <span className="h-1.5 w-1.5 rounded-full bg-cransh-green" />
                 <span className="text-xs font-semibold uppercase tracking-[0.3em] text-cransh-off/60">
                   Cransh Energy
                 </span>
               </span>
-              <h2 className="font-display text-5xl leading-[0.95] tracking-tight text-cransh-green sm:text-6xl md:text-7xl lg:text-[4.5vw]">
+              <h2 className="font-display text-4xl leading-[0.95] tracking-tight text-cransh-green sm:text-6xl md:text-7xl lg:text-[4.5vw]">
                 {HERO_SCROLL_MESSAGE}
               </h2>
             </div>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 sm:mt-8 sm:gap-x-6 sm:gap-y-3">
               {HERO_SCROLL_TAGS.map((tag, i) => (
                 <span
                   key={tag}
                   ref={(el) => {
                     tagRefs.current[i] = el as HTMLSpanElement;
                   }}
-                  className="font-display text-2xl tracking-wide text-cransh-off opacity-0 sm:text-3xl"
+                  className="font-display text-xl tracking-wide text-cransh-off opacity-0 sm:text-3xl"
                 >
                   {tag}
                 </span>

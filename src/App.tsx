@@ -30,8 +30,10 @@ function SmoothAnchors() {
       if (!target) return;
       e.preventDefault();
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // descuenta el header fijo para que no tape el inicio de la sección
+      const headerH = document.querySelector("header")?.getBoundingClientRect().height ?? 0;
       window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY,
+        top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerH),
         behavior: reduce ? "auto" : "smooth",
       });
       history.replaceState(null, "", `#${id}`);

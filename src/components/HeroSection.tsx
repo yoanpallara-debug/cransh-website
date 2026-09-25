@@ -1,23 +1,134 @@
 import { ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useGsapContext } from "../hooks/useGsapContext";
 import { useMouseParallax } from "../hooks/useMouseParallax";
-import { HERO_PRODUCT_IMAGE, NAV_CTA } from "../lib/data";
+import { gsap } from "../lib/gsap";
+import { HERO_PRODUCT_IMAGE, HERO_SCROLL_MESSAGE, HERO_SCROLL_TAGS, NAV_CTA } from "../lib/data";
 import { PantherMark } from "./PantherMark";
 
 export function HeroSection() {
-  const { ref, pos } = useMouseParallax<HTMLDivElement>();
+  const { ref, pos } = useMouseParallax<HTMLElement>();
   const [mounted, setMounted] = useState(false);
+
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const copyGroupRef = useRef<HTMLDivElement | null>(null);
+  const despiertaRef = useRef<HTMLDivElement | null>(null);
+  const energyRef = useRef<HTMLDivElement | null>(null);
+  const tagRefs = useRef<HTMLSpanElement[]>([]);
+  const productRef = useRef<HTMLDivElement | null>(null);
+  const glowRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const t = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(t);
   }, []);
 
+  // Scroll-driven narrative: the Hero pins in place while the product
+  // grows/drifts toward center, the intro copy hands off to "ENERGÍA QUE TE
+  // MUEVE." and the four activity tags, then everything settles and the
+  // pin releases into AboutSection. scrub only — never hijacks the wheel.
+  useGsapContext(
+    sectionRef,
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        // gsap.matchMedia only runs this callback when at least one
+        // condition matches, so mobile needs its own query — without
+        // isMobile the timeline was never built below 1024px.
+        {
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+          isDesktop: "(min-width: 1024px)",
+          isMobile: "(max-width: 1023px)",
+        },
+        (context) => {
+          const conditions = context.conditions as {
+            reduceMotion: boolean;
+            isDesktop: boolean;
+          };
+          if (conditions.reduceMotion) return;
+          const { isDesktop } = conditions;
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top",
+              end: isDesktop ? "+=180%" : "+=140%",
+              scrub: 1,
+              pin: true,
+              anticipatePin: 1,
+            },
+          });
+
+          tl.to(
+            productRef.current,
+            {
+              // drift kept small: at -12% the pack covered the tail of
+              // "ENERGÍA QUE TE MUEVE." on 1440px screens
+              scale: isDesktop ? 1.12 : 1.06,
+              xPercent: isDesktop ? -4 : 0,
+              rotate: isDesktop ? 3 : 1.2,
+              duration: 2,
+              ease: "power1.inOut",
+            },
+            0
+          )
+            .to(
+              glowRef.current,
+              { opacity: 0.95, scale: 1.35, duration: 2, ease: "power1.inOut" },
+              0
+            )
+            .to(
+              [copyGroupRef.current, despiertaRef.current],
+              { opacity: 0, y: -24, duration: 0.8, ease: "power1.in" },
+              0.3
+            )
+            .fromTo(
+              energyRef.current,
+              { opacity: 0, y: 24 },
+              { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" },
+              1.15
+            )
+            .to(
+              energyRef.current,
+              { opacity: 0, y: -16, duration: 0.6, ease: "power1.in" },
+              2.4
+            )
+            .fromTo(
+              tagRefs.current,
+              { opacity: 0, y: 18 },
+              { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "power1.out" },
+              2.1
+            )
+            .to(
+              productRef.current,
+              { scale: isDesktop ? 1.04 : 1.02, xPercent: 0, rotate: 0, duration: 1, ease: "power1.inOut" },
+              3.3
+            )
+            .to(
+              tagRefs.current,
+              { opacity: 0, y: -14, duration: 0.5, stagger: 0.08, ease: "power1.in" },
+              3.4
+            );
+
+          return () => {
+            tl.scrollTrigger?.kill();
+            tl.kill();
+          };
+        }
+      );
+    },
+    []
+  );
+
   return (
     <section
       id="inicio"
-      ref={ref}
+      ref={(node) => {
+        ref.current = node;
+        sectionRef.current = node;
+      }}
       className="relative flex min-h-[100svh] w-full items-center overflow-hidden bg-ink pt-24"
     >
       {/* ---- background depth layers ---- */}
@@ -77,68 +188,101 @@ export function HeroSection() {
       <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-16 sm:px-8 lg:grid-cols-12 lg:gap-4 lg:pb-0">
         {/* ---- copy column ---- */}
         <div className="relative z-10 lg:col-span-7">
-          <div
-            className={`mb-5 flex items-center gap-2 transition-all duration-700 ${
-              mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-            }`}
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-cransh-green" />
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-cransh-off/60">
-              Estudia · Trabaja · Muévete · Sigue
-            </span>
+          <div ref={copyGroupRef}>
+            <div
+              className={`mb-5 flex items-center gap-2 transition-all duration-700 ${
+                mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+              }`}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-cransh-green" />
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-cransh-off/60">
+                Estudia · Trabaja · Muévete · Sigue
+              </span>
+            </div>
+
+            <h1 className="font-display text-6xl leading-[0.95] tracking-tight sm:text-7xl md:text-8xl lg:text-[5.5vw]">
+              <span className="block overflow-hidden pt-[0.15em]">
+                <span
+                  className={`block text-cransh-off transition-all duration-[900ms] ease-out ${
+                    mounted ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+                  }`}
+                  style={{ transitionDelay: "150ms" }}
+                >
+                  TU DÍA
+                </span>
+              </span>
+              <span className="block overflow-hidden pt-[0.15em]">
+                <span
+                  className={`text-glow-green block text-cransh-green transition-all duration-[900ms] ease-out ${
+                    mounted ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+                  }`}
+                  style={{ transitionDelay: "320ms" }}
+                >
+                  EXIGE MÁS.
+                </span>
+              </span>
+            </h1>
+
+            <p
+              className={`mt-6 max-w-md text-lg text-cransh-off/70 transition-all duration-700 ${
+                mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+              }`}
+              style={{ transitionDelay: "520ms" }}
+            >
+              Aprende a organizar tu energía cuando estudias, trabajas y te mueves.
+            </p>
+
+            <div
+              className={`mt-9 flex flex-wrap items-center gap-4 transition-all duration-700 ${
+                mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+              }`}
+              style={{ transitionDelay: "700ms" }}
+            >
+              <Link
+                to={NAV_CTA.href}
+                className="btn-magnetic inline-flex items-center gap-2 rounded-full bg-cransh-green px-7 py-3.5 text-sm font-bold tracking-wide text-ink shadow-[0_0_40px_rgba(168,255,0,0.3)]"
+              >
+                {NAV_CTA.label}
+                <ArrowRight size={18} strokeWidth={2.5} />
+              </Link>
+              <a
+                href="#historia"
+                className="btn-magnetic inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-3.5 text-sm font-bold tracking-wide text-cransh-off"
+              >
+                CONOCE CRANSH ↓
+              </a>
+            </div>
           </div>
 
-          <h1 className="font-display text-6xl leading-[0.95] tracking-tight sm:text-7xl md:text-8xl lg:text-[5.5vw]">
-            <span className="block overflow-hidden pt-[0.15em]">
-              <span
-                className={`block text-cransh-off transition-all duration-[900ms] ease-out ${
-                  mounted ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
-                }`}
-                style={{ transitionDelay: "150ms" }}
-              >
-                TU DÍA
+          {/* scroll-revealed message that hands off from the headline above.
+              The heading and the tag row fade independently — each is its
+              own node, not nested inside the other's opacity, otherwise a
+              parent fading to 0 would hide an already-visible child. */}
+          <div className="pointer-events-none absolute inset-0 flex flex-col justify-center">
+            <div ref={energyRef} className="opacity-0">
+              <span className="mb-4 flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-cransh-green" />
+                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-cransh-off/60">
+                  Cransh Energy
+                </span>
               </span>
-            </span>
-            <span className="block overflow-hidden pt-[0.15em]">
-              <span
-                className={`text-glow-green block text-cransh-green transition-all duration-[900ms] ease-out ${
-                  mounted ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
-                }`}
-                style={{ transitionDelay: "320ms" }}
-              >
-                EXIGE MÁS.
-              </span>
-            </span>
-          </h1>
-
-          <p
-            className={`mt-6 max-w-md text-lg text-cransh-off/70 transition-all duration-700 ${
-              mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-            }`}
-            style={{ transitionDelay: "520ms" }}
-          >
-            Aprende a organizar tu energía cuando estudias, trabajas y te mueves.
-          </p>
-
-          <div
-            className={`mt-9 flex flex-wrap items-center gap-4 transition-all duration-700 ${
-              mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-            }`}
-            style={{ transitionDelay: "700ms" }}
-          >
-            <Link
-              to={NAV_CTA.href}
-              className="btn-magnetic inline-flex items-center gap-2 rounded-full bg-cransh-green px-7 py-3.5 text-sm font-bold tracking-wide text-ink shadow-[0_0_40px_rgba(168,255,0,0.3)]"
-            >
-              {NAV_CTA.label}
-              <ArrowRight size={18} strokeWidth={2.5} />
-            </Link>
-            <a
-              href="#historia"
-              className="btn-magnetic inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-3.5 text-sm font-bold tracking-wide text-cransh-off"
-            >
-              CONOCE CRANSH ↓
-            </a>
+              <h2 className="font-display text-5xl leading-[0.95] tracking-tight text-cransh-green sm:text-6xl md:text-7xl lg:text-[4.5vw]">
+                {HERO_SCROLL_MESSAGE}
+              </h2>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+              {HERO_SCROLL_TAGS.map((tag, i) => (
+                <span
+                  key={tag}
+                  ref={(el) => {
+                    tagRefs.current[i] = el as HTMLSpanElement;
+                  }}
+                  className="font-display text-2xl tracking-wide text-cransh-off opacity-0 sm:text-3xl"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -146,6 +290,7 @@ export function HeroSection() {
         <div className="relative z-10 mx-auto mt-4 w-[70vw] max-w-xs sm:max-w-sm lg:col-span-5 lg:mt-0 lg:w-full lg:max-w-none">
           {/* handwritten campaign phrase */}
           <div
+            ref={despiertaRef}
             className={`absolute -top-6 -left-2 z-20 rotate-[-6deg] transition-all duration-700 sm:-top-4 sm:left-0 lg:-left-8 ${
               mounted ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
             }`}
@@ -168,14 +313,21 @@ export function HeroSection() {
               transform: `translate(${pos.x * 10}px, ${pos.y * 10}px)`,
             }}
           >
-            {/* ambient glow the package appears to float in, echoing the hero's green wash */}
-            <div className="absolute inset-0 -z-10 rounded-full bg-cransh-green/25 blur-[90px] animate-pulse-glow" />
+            {/* scroll-driven scale/rotate/drift lives on its own node so it
+                never fights the mouse-parallax transform above it */}
+            <div ref={productRef} style={{ transformOrigin: "center" }}>
+              {/* ambient glow the package appears to float in, echoing the hero's green wash */}
+              <div
+                ref={glowRef}
+                className="absolute inset-0 -z-10 rounded-full bg-cransh-green/25 blur-[90px] animate-pulse-glow"
+              />
 
-            <img
-              src={HERO_PRODUCT_IMAGE}
-              alt="Empaque de Cransh Energy"
-              className="relative mx-auto w-[85%] animate-float-slow drop-shadow-[0_35px_45px_rgba(0,0,0,0.65)] sm:w-[80%] lg:w-[95%] lg:scale-110"
-            />
+              <img
+                src={HERO_PRODUCT_IMAGE}
+                alt="Empaque de Cransh Energy"
+                className="relative mx-auto w-[85%] animate-float-slow drop-shadow-[0_35px_45px_rgba(0,0,0,0.65)] sm:w-[80%] lg:w-[95%] lg:scale-110"
+              />
+            </div>
           </div>
         </div>
       </div>

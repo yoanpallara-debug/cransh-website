@@ -105,7 +105,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth se quitó deliberadamente — es un conflicto
+     documentado con GSAP ScrollTrigger (pin/scrub calculan mal la posición
+     de scroll cuando el navegador también anima el scroll nativamente). */
   background: var(--color-ink);
 }
 

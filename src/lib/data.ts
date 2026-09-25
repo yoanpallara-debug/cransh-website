@@ -35,6 +35,14 @@ export const NAV_LINKS = [
 /** CTA destacado del header y del menú móvil — dirige a la landing de captación. */
 export const NAV_CTA = { label: "QUIERO LA GUÍA", href: "/guia" };
 
+/**
+ * Mensajes que aparecen secuencialmente durante el scroll pinned del Hero,
+ * después del headline inicial. Ligados al timeline de ScrollTrigger en
+ * HeroSection — no reemplazan "TU DÍA / EXIGE MÁS.", se muestran después.
+ */
+export const HERO_SCROLL_MESSAGE = "ENERGÍA QUE TE MUEVE.";
+export const HERO_SCROLL_TAGS = ["ESTUDIA.", "TRABAJA.", "ENTRENA.", "MUÉVETE."];
+
 /** Ingredientes reales del producto, con su rol — usados en la sección "Ingredientes". */
 export const INGREDIENTS = [
   {

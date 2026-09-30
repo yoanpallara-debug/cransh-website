@@ -48,7 +48,7 @@ function validate(form: FormState): FormErrors {
 }
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-base text-cransh-off placeholder:text-cransh-off/35 outline-none transition-colors focus:border-cransh-green";
+  "w-full rounded-xl border border-white/10 bg-ink/50 px-4 py-3.5 text-base text-cransh-off placeholder:text-cransh-off/30 outline-none transition duration-200 hover:border-white/20 focus:border-cransh-green/70 focus:ring-2 focus:ring-cransh-green/10";
 
 const errorClass = "mt-1.5 text-xs font-medium text-red-400";
 
@@ -121,16 +121,27 @@ export function GuideLeadForm() {
         id="formulario-guia"
         noValidate
         onSubmit={handleSubmit}
-        className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-9"
+        className="relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[#0b0d09] p-6 shadow-[0_24px_100px_rgba(0,0,0,0.45)] sm:p-9"
       >
-        <h2 className="font-display text-3xl leading-[0.95] tracking-tight text-cransh-off sm:text-4xl">
-          DESCARGA TU GUÍA GRATIS
+        <div className="pointer-events-none absolute -right-24 -top-28 -z-10 h-64 w-64 rounded-full bg-cransh-green/[0.08] blur-[80px]" />
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-cransh-off/40">
+            Formulario de acceso
+          </span>
+          <span className="rounded-full border border-cransh-green/20 bg-cransh-green/[0.07] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-cransh-green">
+            Gratis · PDF
+          </span>
+        </div>
+        <h2 className="mt-5 font-display text-3xl leading-[0.95] tracking-tight text-cransh-off sm:text-4xl">
+          RECIBE TU GUÍA
+          <br />
+          <span className="text-cransh-green">CRANSH GRATIS</span>
         </h2>
-        <p className="mt-3 text-sm text-cransh-off/60 sm:text-base">
-          Completa tus datos y recibe la Guía Cransh en tu correo.
+        <p className="mt-3 max-w-md text-sm leading-relaxed text-cransh-off/55 sm:text-base">
+          Completa tus datos y te damos acceso a las 12 páginas para organizar tus días.
         </p>
 
-        <div className="mt-7">
+        <div className="mt-8">
           <label htmlFor="nombre" className="mb-2 block text-sm font-medium text-cransh-off/80">
             Nombre
           </label>
@@ -142,6 +153,7 @@ export function GuideLeadForm() {
             className={inputClass}
             value={form.nombre}
             onChange={(e) => update("nombre", e.target.value)}
+            placeholder="Tu nombre"
             aria-invalid={!!errors.nombre}
             aria-describedby={errors.nombre ? "nombre-error" : undefined}
           />
@@ -228,7 +240,7 @@ export function GuideLeadForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="btn-magnetic mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-cransh-green px-8 py-4 text-sm font-bold tracking-wide text-ink shadow-[0_0_50px_rgba(168,255,0,0.35)] disabled:opacity-70"
+          className="btn-magnetic mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-cransh-green px-8 py-4 text-sm font-bold tracking-wide text-ink shadow-[0_0_50px_rgba(168,255,0,0.25)] transition-shadow hover:shadow-[0_0_60px_rgba(168,255,0,0.4)] disabled:cursor-wait disabled:opacity-70"
         >
           {status === "submitting" ? (
             <>
